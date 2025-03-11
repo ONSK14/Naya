@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>电子Naya</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1e1e1e;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #chat-container {
+            width: 90%;
+            max-width: 600px;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #2c2c2c;
+        }
+        #chat-box {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        .message {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 10px;
+            max-width: 70%;
+        }
+        .user-message {
+            background-color: #bbbbbb;
+            align-self: flex-end;
+        }
+        .naya-message {
+            background-color: #444;
+            align-self: flex-start;
+        }
+        #input-container {
+            display: flex;
+            padding: 10px;
+            background-color: #222;
+        }
+        #message-input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        #send-button {
+            background-color: #444;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin-left: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #send-button:disabled {
+            background-color: #666;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <h1>电子Naya</h1>
+    <div id="chat-container">
+        <div id="chat-box">
+            <div class="message naya-message">找我有什么事？</div>
+        </div>
+        <div id="input-container">
+            <input type="text" id="message-input" placeholder="输入消息..." onkeydown="handleKeyDown(event)">
+            <button id="send-button" onclick="sendMessage()">发送</button>
+        </div>
+    </div>
+
+    <script>
+        const API_KEY = "sk-4dd324d0fdf849ebbec7e4692fde112a";
+        const API_URL = "https://api.deepseek.com/v1/chat/completions";
+        let conversation = [
+            { "role": "system", "content": "你是Naya，一只皮毛光滑水润的黑色女性狼兽人..." }
+        ];
+        let userTokenUsage = 0;
+        let isAwaitingResponse = false;
+
+        // 读取用户的对话历史
+        if (localStorage.getItem("chat_history")) {
+            conversation = JSON.parse(localStorage.getItem("chat_history"));
+            conversation.forEach(msg => appendMessage(msg.role === "user" ? "user-message" : "naya-message", msg.content));
+        }
+
+        function sendMessage() {
+            if (isAwaitingResponse) return;
+
+            const inputField = document.getElementById("message-input");
+            const message = inputField.value.trim();
+            if (!message) return;
+
+            appendMessage("user-message", message);
+            inputField.value = "";
+            isAwaitingResponse = true;
+            document.getElementById("send-button").disabled = true;
+
+            // 限制 Token 使用量
+            let estimatedTokens = message.length / 4;
+            if (userTokenUsage + estimatedTokens > 5000) {
+                appendMessage("naya-message", "你已经超出了每小时的对话上限。");
+                return;
+            }
+            userTokenUsage += estimatedTokens;
+
+            conversation.push({ role: "user", content: message });
+            localStorage.setItem("chat_history", JSON.stringify(conversation));
+
+            appendMessage("naya-message", "输入中...");
+            fetchResponse();
+        }
+
+        function fetchResponse() {
+            fetch(API_URL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${API_KEY}`
+                },
+                body: JSON.stringify({
+                    model: "deepseek-chat",
+                    messages: conversation,
+                    max_tokens: 200
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                let reply = data.choices[0].message.content;
+                document.querySelector(".naya-message:last-child").remove(); // 删除“输入中...”
+                appendMessage("naya-message", reply);
+                conversation.push({ role: "assistant", content: reply });
+                localStorage.setItem("chat_history", JSON.stringify(conversation));
+                isAwaitingResponse = false;
+                document.getElementById("send-button").disabled = false;
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                appendMessage("naya-message", "出现了一些问题，请稍后再试。");
+                isAwaitingResponse = false;
+                document.getElementById("send-button").disabled = false;
+            });
+        }
+
+        function appendMessage(className, text) {
+            const chatBox = document.getElementById("chat-box");
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add("message", className);
+            messageDiv.textContent = text;
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function handleKeyDown(event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        }
+    </script>
+</body>
+</html>
