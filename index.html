@@ -59,7 +59,7 @@
             border-radius: 5px;
             font-size: 16px;
         }
-        #send-button {
+        #send-button, #clear-button {
             background-color: #444;
             color: white;
             border: none;
@@ -72,10 +72,14 @@
             background-color: #666;
             cursor: not-allowed;
         }
+        #clear-button {
+            background-color: red;
+        }
     </style>
 </head>
 <body>
     <h1>电子Naya</h1>
+    <button id="clear-button" onclick="clearChat()">清除聊天记录</button>
     <div id="chat-container">
         <div id="chat-box">
             <div class="message naya-message">找我有什么事？</div>
@@ -171,6 +175,13 @@
         function handleKeyDown(event) {
             if (event.key === "Enter") {
                 sendMessage();
+            }
+        }
+
+        function clearChat() {
+            if (confirm("确定要清除聊天记录吗？这将重置所有对话。")) {
+                localStorage.removeItem("chat_history");
+                location.reload(); // 刷新页面
             }
         }
     </script>
