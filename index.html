@@ -157,9 +157,9 @@
             .filter(msg => msg.role !== "system") // 过滤掉 system 提示
             .map(msg => {
                 if (msg.role === "assistant") {
-                    return `naya：${msg.content.replace(/\n/g, ' ')}`; // 替换 Naya 话语中的换行
+                    return `Naya：${msg.content.replace(/\n/g, ' ')}`; // 替换 Naya 话语中的换行
                 } else {
-                    return `我：${msg.content}`;
+                    return `你：${msg.content}`;
                 }
             })
             .join("\n\n"); // 每条消息之间空一行
