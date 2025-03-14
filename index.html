@@ -38,7 +38,8 @@
             margin: 5px;
             border-radius: 10px;
             max-width: 70%;
-            background-color: #444;
+            background-color: #444; 
+             background-color: rgba(68, 68, 68, 0.8); /* 设定气泡的背景透明度为 0.8 */
         }
         .user-message {
             background-color: #bbbbbb;
@@ -148,14 +149,6 @@
     z-index: 2;
 }
 
-/* 设置对话气泡的透明度 */
-.message {
-    background-color: rgba(68, 68, 68, 0.8); /* 设定气泡的背景透明度为 0.2 */
-    padding: 10px;
-    margin: 5px;
-    border-radius: 10px;
-    max-width: 70%;
-}
 
 /* 调整对话气泡上方图片透明度 */
 .bumiaonaya-message::after, .user-message::after {
