@@ -39,7 +39,7 @@
             border-radius: 10px;
             max-width: 70%;
             background-color: #444; 
-             background-color: rgba(68, 68, 68, 0.8); /* 设定气泡的背景透明度为 0.8 */
+             background-color: rgba(68, 68, 68, 0.9); /* 设定气泡的背景透明度为 0.9 */
         }
         .user-message {
             background-color: #bbbbbb;
@@ -127,7 +127,7 @@
 }
 
 /* 添加背景图片并放置在对话气泡之上 */
-#chat-container::after {
+#chat-container::before {
     content: "";
     position: absolute;
     top: 0;
