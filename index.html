@@ -141,29 +141,6 @@
     opacity: 0.3; /* 整体背景图片透明度 */
     z-index: 1; /* 确保背景图片在对话气泡之上 */
     pointer-events: none; /* 避免遮挡用户交互 */
-}
-
-/* 让所有对话内容在背景图片之下 */
-#chat-box {
-    position: relative;
-    z-index: 2;
-}
-
-
-/* 调整对话气泡上方图片透明度 */
-.bumiaonaya-message::after, .user-message::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('bumiaonaya.png'); /* 替换为你的图片路径 */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0.2; /* 设定对话气泡上的背景透明度为 0.2 */
-    z-index: -1; /* 确保它在气泡背景中 */
 }/* 背景图片2 */
 
 
