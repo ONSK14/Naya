@@ -100,3 +100,24 @@ function checkLogin() {
     }
 }
 
+document.addEventListener("DOMContentLoaded", function() {
+    let loggedInUser = localStorage.getItem("loggedInUser");
+    let inputField = document.getElementById("message-input");
+    let sendButton = document.getElementById("send-button");
+
+    if (!loggedInUser) {
+        inputField.disabled = true;
+        sendButton.disabled = true;
+
+        // 禁止回车键发送消息
+        inputField.addEventListener("keypress", function(event) {
+            event.preventDefault();
+        });
+
+        // 禁止点击发送按钮
+        sendButton.addEventListener("click", function(event) {
+            event.preventDefault();
+            alert("请先登录后再使用对话功能！");
+        });
+    }
+});
