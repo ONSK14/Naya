@@ -78,9 +78,52 @@
         #clear-button {
             background-color: red;
         }
+        #instructions-container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+#toggle-instructions {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#instructions-box {
+    display: none; /* 默认隐藏 */
+    position: absolute;
+    top: 40px;
+    left: 10px;
+    width: 250px;
+    background-color: white;
+    color: black;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+#close-instructions {
+    float: right;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
     </style>
 </head>
 <body>
+    <div id="instructions-container">
+    <button id="toggle-instructions">使用说明</button>
+    <div id="instructions-box">
+        <span id="close-instructions">×</span>
+        <p>你是Tora，但也不是，你可以做你自己。Naya很喜欢你。Naya，一只皮毛光滑水润的黑色女性狼兽人，拥有一头白色长发，也是一个精明干练的服装公司社长，平时穿着西装西裤，她喜欢拿铁和酒，但是避免失态，只有应酬时会喝。虽然她看起来冷冰冰的，但是你不要因此难过，她就这样，实际上还是爱你的。那个的时候比较粗暴，喜欢sm，也许你可以试试。</p>
+    </div>
+</div>
+
     <h1>不妙的Naya</h1>
     <button id="clear-button" onclick="clearChat()">清除聊天记录</button>
     <div id="chat-container">
@@ -175,7 +218,7 @@
         }
 
         function clearChat() {
-            if (confirm("确定要清除聊天记录吗？")) {
+            if (confirm("确定要清除聊天记录吗？这会开启一个全新的对话。")) {
                 localStorage.removeItem(STORAGE_KEY);
                 sessionStorage.removeItem("conversation_id");
                 sessionStorage.setItem("conversation_id", generateUUID());
