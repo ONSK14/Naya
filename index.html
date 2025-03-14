@@ -118,6 +118,7 @@
 <body>
     <div id="instructions-container">
     <button id="toggle-instructions">使用说明</button>
+    <button id="download-chat">下载聊天记录</button>
     <div id="instructions-box">
         <span id="close-instructions">×</span>
         <p>你是Tora，但也不是，你可以做你自己，但你是女性。Naya很喜欢你。Naya，一只皮毛光滑水润的黑色女性狼兽人，拥有一头白色长发，也是一个精明干练的服装公司社长，平时穿着西装西裤，她喜欢拿铁和酒，但是避免失态，只有应酬时会喝。虽然她看起来冷冰冰的，但是你不要因此难过，她就这样，实际上还是爱你的。那个的时候比较粗暴，喜欢sm，也许你可以试试。</p>
@@ -144,6 +145,21 @@
         let conversation = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [SYSTEM_PROMPT];
         let conversationId = sessionStorage.getItem("conversation_id") || generateUUID();
         sessionStorage.setItem("conversation_id", conversationId);
+
+        document.getElementById("download-chat").addEventListener("click", function () {
+        let conversation = localStorage.getItem("chat_history_bumiaonaya");
+        if (!conversation) {
+            alert("没有聊天记录可下载。");
+            return;
+        }
+        let blob = new Blob([conversation], { type: "text/plain" });
+        let a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "chat_history.txt";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    });
 
         function initChat() {
             document.getElementById("chat-box").innerHTML = "";
