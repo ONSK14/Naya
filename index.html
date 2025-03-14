@@ -153,6 +153,15 @@
             });
         }
 
+            document.getElementById("toggle-instructions").addEventListener("click", function () {
+            document.getElementById("instructions-box").style.display = "block";
+            });
+
+            document.getElementById("close-instructions").addEventListener("click", function () {
+            document.getElementById("instructions-box").style.display = "none";
+            });
+
+        
        function sendMessage() {
             if (document.getElementById("send-button").disabled) return;
 
