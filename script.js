@@ -16,9 +16,10 @@ function checkLoginStatus() {
     let sessionUser = sessionStorage.getItem("loggedInUser");
     let userStatus = document.getElementById("user-status");
     let logoutButton = document.getElementById("logout-button");
+    let inputContainer = document.getElementById("input-container");
+    let messageCountDisplay = document.getElementById("message-count");
     let loginContainer = document.getElementById("login-container");
     let chatContainer = document.getElementById("chat-container");
-    let inputContainer = document.getElementById("input-container");
 
     if (!sessionUser) {
         userStatus.innerHTML = "未登录";
@@ -30,14 +31,13 @@ function checkLoginStatus() {
         let userMessageCount = JSON.parse(sessionStorage.getItem("userMessageCount")) || {};
         let userLimit = users[sessionUser] ? users[sessionUser].messageLimit : 100;
         userStatus.innerHTML = `已登录：${sessionUser} | 剩余消息：${userLimit - (userMessageCount[sessionUser] || 0)} / ${userLimit}`;
-        logoutButton.style.display = "inline-block"; // **确保退出按钮正确显示**
-        loginContainer.style.display = "none"; // **隐藏登录界面**
-        chatContainer.style.display = "block"; // **显示聊天界面**
-        inputContainer.style.display = "flex"; // **确保输入框可见**
+        logoutButton.style.display = "inline-block";
+        loginContainer.style.display = "none";
+        chatContainer.style.display = "block";
+        inputContainer.style.display = "flex";
         updateMessageCountDisplay();
     }
 }
-
 
 // 更新剩余消息数
 function updateMessageCountDisplay() {
