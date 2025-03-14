@@ -44,11 +44,14 @@ function updateMessageCountDisplay() {
     let sessionUser = sessionStorage.getItem("loggedInUser");
     let messageCountDisplay = document.getElementById("message-count");
     if (!sessionUser || !messageCountDisplay) return;
+
     let userMessageCount = JSON.parse(sessionStorage.getItem("userMessageCount")) || {};
     let userLimit = users[sessionUser] ? users[sessionUser].messageLimit : 100;
     let remainingMessages = userLimit - (userMessageCount[sessionUser] || 0);
+
     messageCountDisplay.innerText = `剩余消息：${remainingMessages} / ${userLimit}`;
 }
+
 
 // 登录功能
 function login() {
@@ -82,20 +85,30 @@ function sendMessage() {
         alert("请先登录后再使用对话功能！");
         return;
     }
+
     let userMessageCount = JSON.parse(sessionStorage.getItem("userMessageCount")) || {};
     let userLimit = users[sessionUser] ? users[sessionUser].messageLimit : 100;
+
     if (!userMessageCount[sessionUser]) {
         userMessageCount[sessionUser] = 0;
     }
+
     if (userMessageCount[sessionUser] >= userLimit) {
         alert("您的消息额度已用完！");
         return;
     }
+
+    // ✅ 发送消息后，减少剩余消息数
     userMessageCount[sessionUser]++;
     sessionStorage.setItem("userMessageCount", JSON.stringify(userMessageCount));
+
+    // ✅ 立即更新剩余消息数显示
     updateMessageCountDisplay();
+
+    // ✅ 确保 user-status 也同步更新
     document.getElementById("user-status").innerHTML = `已登录：${sessionUser} | 剩余消息：${userLimit - userMessageCount[sessionUser]} / ${userLimit}`;
 }
+
 
 // 监听回车事件，未登录时禁止发送消息
 function handleKeyDown(event) {
