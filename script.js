@@ -44,6 +44,14 @@ function showChatInterface(username) {
 
 // 发送消息
 function sendMessage() {
+    let loggedInUser = localStorage.getItem("loggedInUser");
+    
+    // 如果未登录，阻止发送消息
+    if (!loggedInUser) {
+        alert("请先登录后再使用对话功能！");
+        return;
+    }
+
     let remainingMessages = localStorage.getItem("remainingMessages");
 
     if (remainingMessages > 0) {
@@ -57,6 +65,7 @@ function sendMessage() {
         input.value = "";
     }
 }
+
 
 // 更新对话额度显示 & 禁用输入框
 function updateMessageQuota() {
@@ -80,3 +89,14 @@ function logout() {
 
 // 页面加载时检查是否已登录
 checkLogin();
+function checkLogin() {
+    let loggedInUser = localStorage.getItem("loggedInUser");
+
+    if (loggedInUser && users[loggedInUser]) {
+        showChatInterface(loggedInUser);
+    } else {
+        document.getElementById("message-input").disabled = true;
+        document.getElementById("send-button").disabled = true;
+    }
+}
+
