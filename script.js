@@ -16,10 +16,12 @@ function checkLoginStatus() {
     let sessionUser = sessionStorage.getItem("loggedInUser");
     let inputField = document.getElementById("message-input");
     let sendButton = document.getElementById("send-button");
+    let messageCountDisplay = document.getElementById("message-count");
 
     if (!sessionUser) {
         inputField.disabled = true;
         sendButton.disabled = true;
+        messageCountDisplay.innerText = "未登录";
     } else {
         let userMessageCount = JSON.parse(sessionStorage.getItem("userMessageCount")) || {};
         let userLimit = users[sessionUser] ? users[sessionUser].messageLimit : 100; // 默认 100 条
@@ -36,7 +38,7 @@ function checkLoginStatus() {
     }
 }
 
-// 显示剩余消息数
+// 显示剩余消息数（右上角）
 function updateMessageCountDisplay() {
     let sessionUser = sessionStorage.getItem("loggedInUser");
     let messageCountDisplay = document.getElementById("message-count");
