@@ -40,6 +40,7 @@
             max-width: 70%;
             background-color: #444; 
              background-color: rgba(68, 68, 68, 0.9); /* 设定气泡的背景透明度为 0.9 */
+            color: white; /* 确保文字不变透明 */
         }
         .user-message {
             background-color: #bbbbbb;
@@ -126,7 +127,7 @@
     position: relative; /* 让背景图片和遮罩可以覆盖 */
 }
 
-/* 添加背景图片并放置在对话气泡之上 */
+/* 添加背景图片并放置在对话气泡之下 */
 #chat-container::before {
     content: "";
     position: absolute;
@@ -141,7 +142,20 @@
     opacity: 0.3; /* 整体背景图片透明度 */
     z-index: 1; /* 确保背景图片在对话气泡之上 */
     pointer-events: none; /* 避免遮挡用户交互 */
-}/* 背景图片2 */
+}
+
+/* 让所有对话内容在背景图片之下 */
+#chat-box {
+    position: relative;
+    z-index: 2;
+}
+
+/* 让输入框和按钮在背景图片之上 */
+#input-container {
+    position: relative;
+    z-index: 3;
+}
+/* 背景图片2 */
 
 
         h1 {
