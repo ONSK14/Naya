@@ -34,7 +34,7 @@ function checkLoginStatus() {
         logoutButton.style.display = "none";
     } else {
         let userMessageCount = JSON.parse(sessionStorage.getItem("userMessageCount")) || {};
-        let userLimit = users[sessionUser] ? users[sessionUser].messageLimit : 100; // 默认 100 条
+        let userLimit = users[sessionUser] ? users[sessionUser].messageLimit : 100;
 
         if (userMessageCount[sessionUser] >= userLimit) {
             inputField.disabled = true;
@@ -48,8 +48,8 @@ function checkLoginStatus() {
         chatContainer.style.display = "block";
         inputContainer.style.display = "flex";
         logoutButton.style.display = "inline-block";
-        userStatus.innerHTML = `已登录：${sessionUser} | 剩余消息：${userLimit - (userMessageCount[sessionUser] || 0)} / ${userLimit} ` +
-                               `<button id='logout-button' onclick='logout()'>退出登录</button>`;
+        userStatus.innerHTML = `已登录：${sessionUser} | 剩余消息：${userLimit - (userMessageCount[sessionUser] || 0)} / ${userLimit}`;
+        logoutButton.style.display = "inline-block";
         updateMessageCountDisplay();
     }
 }
@@ -102,8 +102,7 @@ function sendMessage() {
     userMessageCount[sessionUser]++;
     sessionStorage.setItem("userMessageCount", JSON.stringify(userMessageCount));
     updateMessageCountDisplay();
-    document.getElementById("user-status").innerHTML = `已登录：${sessionUser} | 剩余消息：${userLimit - userMessageCount[sessionUser]} / ${userLimit} ` +
-                                                          `<button id='logout-button' onclick='logout()'>退出登录</button>`;
+    document.getElementById("user-status").innerHTML = `已登录：${sessionUser} | 剩余消息：${userLimit - userMessageCount[sessionUser]} / ${userLimit}`;
 }
 
 // 退出登录
