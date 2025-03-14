@@ -146,7 +146,7 @@
         let conversationId = sessionStorage.getItem("conversation_id") || generateUUID();
         sessionStorage.setItem("conversation_id", conversationId);
 
-       document.getElementById("download-chat").addEventListener("click", function () {
+        document.getElementById("download-chat").addEventListener("click", function () {// 下载文件开始
         let conversation = JSON.parse(localStorage.getItem("chat_history_bumiaonaya"));
         if (!conversation || conversation.length === 0) {
             alert("没有聊天记录可下载。");
@@ -158,14 +158,17 @@
             .map(msg => (msg.role === "assistant" ? `naya：${msg.content}` : `我：${msg.content}`))
             .join("\n\n"); // 每条消息之间空一行
         
+        let fileName = prompt("请输入文件名：", "chat_history");
+        if (!fileName) return; // 如果用户取消输入，则不下载
+        
         let blob = new Blob([chatText], { type: "text/plain" });
         let a = document.createElement("a");
         a.href = URL.createObjectURL(blob);
-        a.download = "chat_history.txt";
+        a.download = fileName + ".txt";
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-    });
+    });// 下载文件结束
 
         function initChat() {
             document.getElementById("chat-box").innerHTML = "";
