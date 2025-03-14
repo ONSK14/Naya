@@ -121,6 +121,8 @@
             isAwaitingResponse = true;
             document.getElementById("send-button").disabled = true;
 
+            appendMessage("bumiaonaya-message", "输入中...");
+
             conversation.push({ role: "user", content: message });
             if (conversation.length > 50) {
                 conversation = conversation.slice(-50);
@@ -143,6 +145,7 @@
             .then(response => response.json())
             .then(data => {
                 let reply = data.choices[0].message.content;
+                document.querySelector(".bumiaonaya-message:last-child").remove();
                 appendMessage("bumiaonaya-message", reply);
                 conversation.push({ role: "assistant", content: reply });
                 if (conversation.length > 50) {
@@ -152,6 +155,7 @@
                 document.getElementById("send-button").disabled = false;
             })
             .catch(error => {
+                document.querySelector(".bumiaonaya-message:last-child").remove();
                 appendMessage("bumiaonaya-message", "出现了一些问题，请稍后再试。");
                 isAwaitingResponse = false;
                 document.getElementById("send-button").disabled = false;
