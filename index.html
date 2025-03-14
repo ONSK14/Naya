@@ -146,13 +146,19 @@
         let conversationId = sessionStorage.getItem("conversation_id") || generateUUID();
         sessionStorage.setItem("conversation_id", conversationId);
 
-        document.getElementById("download-chat").addEventListener("click", function () {
-        let conversation = localStorage.getItem("chat_history_bumiaonaya");
-        if (!conversation) {
+       document.getElementById("download-chat").addEventListener("click", function () {
+        let conversation = JSON.parse(localStorage.getItem("chat_history_bumiaonaya"));
+        if (!conversation || conversation.length === 0) {
             alert("没有聊天记录可下载。");
             return;
         }
-        let blob = new Blob([conversation], { type: "text/plain" });
+        
+        let chatText = conversation
+            .filter(msg => msg.role !== "system") // 过滤掉 system 提示
+            .map(msg => (msg.role === "assistant" ? `naya：${msg.content}` : `我：${msg.content}`))
+            .join("\n\n"); // 每条消息之间空一行
+        
+        let blob = new Blob([chatText], { type: "text/plain" });
         let a = document.createElement("a");
         a.href = URL.createObjectURL(blob);
         a.download = "chat_history.txt";
