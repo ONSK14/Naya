@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     checkLoginStatus();
+    updateMessageCountDisplay();
 });
 
 // 预设的用户名和密码（只能使用你提供的）
@@ -31,7 +32,22 @@ function checkLoginStatus() {
             inputField.disabled = false;
             sendButton.disabled = false;
         }
+        updateMessageCountDisplay();
     }
+}
+
+// 显示剩余消息数
+function updateMessageCountDisplay() {
+    let loggedInUser = localStorage.getItem("loggedInUser");
+    let messageCountDisplay = document.getElementById("message-count");
+
+    if (!loggedInUser || !messageCountDisplay) return;
+
+    let userMessageCount = JSON.parse(localStorage.getItem("userMessageCount")) || {};
+    let userLimit = users[loggedInUser] ? users[loggedInUser].messageLimit : 100;
+    let remainingMessages = userLimit - (userMessageCount[loggedInUser] || 0);
+
+    messageCountDisplay.innerText = `剩余消息：${remainingMessages} / ${userLimit}`;
 }
 
 // 登录函数
@@ -76,8 +92,9 @@ function sendMessage() {
 
     userMessageCount[loggedInUser]++;
     localStorage.setItem("userMessageCount", JSON.stringify(userMessageCount));
-
-    // 这里调用你的聊天 API 进行发送消息的逻辑
+    updateMessageCountDisplay();
+    
+    // 这里可以调用你的聊天 API 进行发送消息的逻辑
 }
 
 // 退出登录
