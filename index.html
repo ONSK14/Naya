@@ -25,10 +25,6 @@
             border-radius: 10px;
             overflow: hidden;
             background-color: #2c2c2c;
-            position: relative;
-            z-index: 1;
-            background: rgba(0, 0, 0, 0.5); /* 让整个聊天框透明度变暗 */
-            position: relative; /* 让 `#input-container` 参考这个容器 */
         }
         #chat-box {
             flex: 1;
@@ -36,20 +32,12 @@
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            z-index: 2;
-            background: rgba(44, 44, 44, 0.9); /* 让聊天框稍微透明 */
-            height: calc(100% - 60px); /* 预留输入框高度 */
         }
         #input-container {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    display: flex;
-    padding: 10px;
-    background-color: #222;
-}
-
+            display: flex;
+            padding: 10px;
+            background-color: #222;
+        }
         #message-input {
             flex: 1;
             padding: 10px;
@@ -90,7 +78,6 @@
     border-radius: 10px;
     overflow: hidden;
     background-color: #2c2c2c;
-    z-index: 1; /* 提升聊天框层级 */
     position: relative; /* 让背景图片位于对话框之上，但对话气泡之下 */
 }
 
@@ -102,21 +89,19 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('bumiaonaya.png');
+    background-image: url('bumiaonaya.png'); /* 使用用户指定的图片 */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    opacity: 0.3;
-    z-index: -1; /* ✅ 让背景图片处于聊天框之下 */
+    opacity: 0.3; /* 设置背景图片透明度 30% */
+    z-index: 1; /* 确保背景图片在对话框之上 */
+    pointer-events: none; /* 避免影响用户交互 */
 }
 
 /* 让所有对话内容在背景图片之上 */
 #chat-box {
-     padding: 10px;
-    overflow-y: auto;
-    max-height: 70vh; /* 确保不会过长 */
-    z-index: 3; /* 确保在背景上方 */
-    background: rgba(44, 44, 44, 0.8); /* 让背景变暗一点，提升可读性 */
+    position: relative;
+    z-index: 3;
 }
 
 /* 让输入框和按钮在背景图片之上 */
@@ -187,9 +172,6 @@
 
     </style>
 </head>
-   
-        
-
 <body>
     <div id="instructions-container">
     <button id="toggle-instructions">使用说明</button>
@@ -201,37 +183,15 @@
     </div>
 </div>
 
-<div id="user-status" style="position: absolute; top: 10px; right: 10px; color: white;">
-    <span id="user-info"></span>
-    <button id="logout-button" onclick="logout()" style="display: none; margin-left: 10px; background-color: red; color: white; border: none; padding: 5px 10px; cursor: pointer;">退出登录</button>
-</div>
-
-
-
-
-    
-    <div id="login-container">
-    <h2>登录</h2>
-    <input type="text" id="username" placeholder="用户名">
-    <input type="password" id="password" placeholder="密码">
-    <button onclick="login()">登录</button>
-    <p id="login-error" style="color: red; display: none;">用户名或密码错误</p>
-
-    </div>
-
-    
     <h1 id="page-title">不妙的Naya</h1>
-    <button id="clear-button" onclick="clearChat()" style="display: block; margin: 10px auto;">清除聊天记录</button>
-
+    <button id="clear-button" onclick="clearChat()">清除聊天记录</button>
     <div id="chat-container">
         <div id="chat-box"></div>
         <div id="input-container">
             <input type="text" id="message-input" placeholder="输入消息..." onkeydown="handleKeyDown(event)">
             <button id="send-button" onclick="sendMessage()">发送</button>
         </div>
-        <script src="script.js"></script>
     </div>
-
 
     <script>
         const API_KEY = "sk-FtY6aIPj4XFabI8J009c23C075Bf4b058fF887EbA583A3D7";
