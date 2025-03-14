@@ -123,9 +123,10 @@
             appendMessage("bumiaonaya-message", "输入中...");
 
             conversation.push({ role: "user", content: message });
-            if (conversation.length > 50) {
-                conversation = [SYSTEM_PROMPT, { role: "assistant", content: "有什么事？" }, ...conversation.slice(-49)];
-            }
+           if (conversation.length > 50) {
+            conversation = [SYSTEM_PROMPT, ...conversation.slice(-50)];
+        }
+
             localStorage.setItem(STORAGE_KEY, JSON.stringify(conversation));
 
             fetchResponse();
