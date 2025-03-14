@@ -14,20 +14,24 @@ const users = {
 // 检查用户是否已登录
 function checkLoginStatus() {
     let sessionUser = sessionStorage.getItem("loggedInUser");
+    let inputContainer = document.getElementById("input-container");
     let inputField = document.getElementById("message-input");
     let sendButton = document.getElementById("send-button");
     let messageCountDisplay = document.getElementById("message-count");
     let loginContainer = document.getElementById("login-container");
     let chatContainer = document.getElementById("chat-container");
     let userStatus = document.getElementById("user-status");
+    let logoutButton = document.getElementById("logout-button");
 
     if (!sessionUser) {
+        inputContainer.style.display = "none";
         inputField.disabled = true;
         sendButton.disabled = true;
         messageCountDisplay.innerText = "未登录";
         userStatus.innerText = "";
         loginContainer.style.display = "block";
         chatContainer.style.display = "none";
+        logoutButton.style.display = "none";
     } else {
         let userMessageCount = JSON.parse(sessionStorage.getItem("userMessageCount")) || {};
         let userLimit = users[sessionUser] ? users[sessionUser].messageLimit : 100; // 默认 100 条
@@ -42,7 +46,10 @@ function checkLoginStatus() {
         }
         loginContainer.style.display = "none";
         chatContainer.style.display = "block";
-        userStatus.innerText = `已登录：${sessionUser} | 剩余消息：${userLimit - (userMessageCount[sessionUser] || 0)} / ${userLimit}`;
+        inputContainer.style.display = "flex";
+        logoutButton.style.display = "inline-block";
+        userStatus.innerHTML = `已登录：${sessionUser} | 剩余消息：${userLimit - (userMessageCount[sessionUser] || 0)} / ${userLimit} ` +
+                               `<button id='logout-button' onclick='logout()'>退出登录</button>`;
         updateMessageCountDisplay();
     }
 }
@@ -95,7 +102,8 @@ function sendMessage() {
     userMessageCount[sessionUser]++;
     sessionStorage.setItem("userMessageCount", JSON.stringify(userMessageCount));
     updateMessageCountDisplay();
-    document.getElementById("user-status").innerText = `已登录：${sessionUser} | 剩余消息：${userLimit - userMessageCount[sessionUser]} / ${userLimit}`;
+    document.getElementById("user-status").innerHTML = `已登录：${sessionUser} | 剩余消息：${userLimit - userMessageCount[sessionUser]} / ${userLimit} ` +
+                                                          `<button id='logout-button' onclick='logout()'>退出登录</button>`;
 }
 
 // 退出登录
