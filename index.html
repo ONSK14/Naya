@@ -78,6 +78,7 @@
     border-radius: 10px;
     overflow: hidden;
     background-color: #2c2c2c;
+    z-index: 1; /* 提升聊天框层级 */
     position: relative; /* 让背景图片位于对话框之上，但对话气泡之下 */
 }
 
@@ -100,8 +101,11 @@
 
 /* 让所有对话内容在背景图片之上 */
 #chat-box {
-    position: relative;
-    z-index: 3;
+     padding: 10px;
+    overflow-y: auto;
+    max-height: 70vh; /* 确保不会过长 */
+    z-index: 3; /* 确保在背景上方 */
+    background: rgba(44, 44, 44, 0.8); /* 让背景变暗一点，提升可读性 */
 }
 
 /* 让输入框和按钮在背景图片之上 */
@@ -187,9 +191,11 @@
     </div>
 </div>
 
-   <div id="user-status" style="position: absolute; top: 10px; right: 10px; color: white;">
-    <button id="logout-button" onclick="logout()" style="display: none;">退出登录</button>
+  <div id="user-status" style="position: absolute; top: 10px; right: 10px; color: white;">
+    <span id="user-info"></span>
+    <button id="logout-button" onclick="logout()" style="margin-left: 10px; background-color: red; color: white; border: none; padding: 5px 10px; cursor: pointer;">退出登录</button>
 </div>
+
 
 
     
@@ -211,7 +217,8 @@
 
     
     <h1 id="page-title">不妙的Naya</h1>
-    <button id="clear-button" onclick="clearChat()">清除聊天记录</button>
+    <button id="clear-button" onclick="clearChat()" style="display: block; margin: 10px auto;">清除聊天记录</button>
+
     <div id="chat-container">
         <div id="chat-box"></div>
         <script src="script.js"></script>
