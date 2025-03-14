@@ -172,9 +172,11 @@
 
     </style>
 </head>
-    <body onload="checkLoginStatus()">
+   
+        
 
 <body>
+     <body onload="checkLoginStatus()">
     <div id="instructions-container">
     <button id="toggle-instructions">使用说明</button>
     <button id="download-chat">下载聊天记录</button>
@@ -185,7 +187,10 @@
     </div>
 </div>
 
-    <div id="user-status" style="position: absolute; top: 10px; right: 10px; color: white;"></div>
+   <div id="user-status" style="position: absolute; top: 10px; right: 10px; color: white;">
+    <button id="logout-button" onclick="logout()" style="display: none;">退出登录</button>
+</div>
+
 
     
     <div id="login-container">
