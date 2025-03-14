@@ -110,6 +110,9 @@
                     appendMessage(msg.role === "user" ? "user-message" : "bumiaonaya-message", msg.content);
                 }
             });
+            } else {
+            conversation.push({ role: "assistant", content: "有什么事？" });
+        
         }
 
         function sendMessage() {
