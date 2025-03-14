@@ -107,7 +107,7 @@
 }
         
 #chat-container {/* 背景图片1 */
-    width: 90%;
+     width: 90%;
     max-width: 600px;
     height: 80vh;
     display: flex;
@@ -115,11 +115,11 @@
     border-radius: 10px;
     overflow: hidden;
     background-color: #2c2c2c;
-    position: relative; /* 让背景图片位于对话气泡之下 */
+    position: relative; /* 让背景图片位于对话框之上，但对话气泡之下 */
 }
 
-/* 添加背景图片并放置在对话气泡之下 */
-#chat-container::before {
+/* 让背景图片放在对话框之上，但对话气泡之下 */
+#chat-container::after {
     content: "";
     position: absolute;
     top: 0;
@@ -131,19 +131,20 @@
     background-position: center;
     background-repeat: no-repeat;
     opacity: 0.3; /* 设置背景图片透明度 30% */
-    z-index: -1; /* 确保背景图片在对话气泡之下 */
+    z-index: 1; /* 确保背景图片在对话框之上 */
+    pointer-events: none; /* 避免影响用户交互 */
 }
 
 /* 让所有对话内容在背景图片之上 */
 #chat-box {
     position: relative;
-    z-index: 2;
+    z-index: 3;
 }
 
 /* 让输入框和按钮在背景图片之上 */
 #input-container {
     position: relative;
-    z-index: 3;
+    z-index: 4;
 }
 
 /* 设置对话气泡的背景透明度为 80% 但文字不变透明 */
@@ -155,8 +156,9 @@
     max-width: 70%;
     color: white; /* 确保文字不变透明 */
     position: relative;
-    z-index: 2; /* 让气泡位于背景图片之上 */
+    z-index: 2; /* 让气泡位于背景图片之上，但对话框之下 */
 }
+
 /* 背景图片2 */
 
 
