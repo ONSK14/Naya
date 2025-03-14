@@ -154,13 +154,16 @@
 /* 背景图片2 */
 
                 .user-message {
-            background-color: #bbbbbb;
-            align-self: flex-end;
-        }
-        .bumiaonaya-message {
-            background-color: #444;
-            align-self: flex-start;
-        }
+    background-color: rgba(187, 187, 187, 0.8); /* 保留 #bbbbbb 颜色，并设定透明度为 80% */
+    align-self: flex-end;
+    color: white; /* 确保文字保持白色，不透明 */
+}
+
+.bumiaonaya-message {
+    background-color: rgba(68, 68, 68, 0.8); /* 保留 #444 颜色，并设定透明度为 80% */
+    align-self: flex-start;
+    color: white; /* 确保文字保持白色，不透明 */
+}
 
         h1 {
     margin-top: 40px; /* 调整标题与上方的距离 */
