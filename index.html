@@ -279,7 +279,7 @@
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${API_KEY}`
                 },
-                body: JSON.stringify({ model: "claude-3-opus-20240229", messages: conversation, max_tokens: 70, temperature: 0.5 }) /* 模型名和maxtokens */
+                body: JSON.stringify({ model: "grok-3", messages: conversation, max_tokens: 70, temperature: 0.5 }) /* 模型名和maxtokens */
             })
             .then(response => response.json())
             .then(data => {
